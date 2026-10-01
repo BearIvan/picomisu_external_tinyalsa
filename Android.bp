@@ -12,6 +12,11 @@ cc_library {
     cflags: ["-Werror", "-Wno-macro-redefined"],
     export_include_dirs: ["include"],
     local_include_dirs: ["include"],
+    // PICO: the factory PICO OS 5.13.7 libtinyalsa logs its device opens.
+    shared_libs: [
+        "libcutils",
+        "liblog",
+    ],
 
     target: {
         darwin: {

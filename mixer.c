@@ -51,6 +51,8 @@
 
 #include <tinyalsa/asoundlib.h>
 
+#include <android/log.h>  /* PICO: open logs of the factory PICO OS 5.13.7 */
+
 struct mixer_ctl {
     struct mixer *mixer;
     struct snd_ctl_elem_info *info;
@@ -106,6 +108,9 @@ struct mixer *mixer_open(unsigned int card)
     char fn[256];
 
     snprintf(fn, sizeof(fn), "/dev/snd/controlC%u", card);
+    /* PICO (factory PICO OS 5.13.7) */
+    __android_log_print(ANDROID_LOG_DEBUG, "tinyalsa_mixer", "%s line%d fn is %s\n", __func__,
+                        __LINE__, fn);
     fd = open(fn, O_RDWR);
     if (fd < 0)
         return 0;

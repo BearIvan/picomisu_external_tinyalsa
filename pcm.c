@@ -48,6 +48,8 @@
 
 #include <tinyalsa/asoundlib.h>
 
+#include <android/log.h>  /* PICO: open logs of the factory PICO OS 5.13.7 */
+
 #define PARAM_MAX SNDRV_PCM_HW_PARAM_LAST_INTERVAL
 
 /* Logs information into a string; follows snprintf() in that
@@ -893,6 +895,9 @@ struct pcm *pcm_open(unsigned int card, unsigned int device,
 
     snprintf(fn, sizeof(fn), "/dev/snd/pcmC%uD%u%c", card, device,
              flags & PCM_IN ? 'c' : 'p');
+    /* PICO (factory PICO OS 5.13.7) */
+    __android_log_print(ANDROID_LOG_DEBUG, "tinyalsa_pcm", "%s line%d fn is %s\n", __func__,
+                        __LINE__, fn);
 
     pcm->flags = flags;
     pcm->fd = open(fn, O_RDWR|O_NONBLOCK);
